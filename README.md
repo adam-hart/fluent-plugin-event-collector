@@ -1,6 +1,6 @@
 # fluent-plugin-event-collector
 
-[Fluentd](https://fluentd.org/) filter plugin to do something.
+[Fluentd](https://fluentd.org/) filter plugin to aggregate events based on a common field key.
 
 Event Collector merges multiple Fluentd events into a single event with key fields concatenated. The terminating event should be designated with a special key value pair, however unfinished events will timeout and be emitted normally.  For example with the key field `message` and the event key `request_id`, the two events:
 
@@ -41,13 +41,15 @@ $ bundle
 
 ## Configuration
 
-You can generate configuration template:
-
-```
-$ fluent-plugin-config-format filter event_collector
-```
-
-You can copy and paste generated documents here.
+* **event_key** (string) (required): The event key used to identify groupings of events.
+* **end_tag_key** (string) (required): The event key used to identify the last event in a group.
+* **end_tag_value** (string) (required): The value in end_tag_key that identifies the last event in a group.
+* **merge_fields** (array) (optional): The event field keys to be concatenated across event groups.
+  * Default value: `[]`.
+* **merge_field_delimeter** (string) (optional): The delimeter to be added between merge field values.
+  * Default value: ` `.
+* **event_timeout** (integer) (optional): The timeout for events that have received no closing tag.
+  * Default value: `30`.
 
 ## Copyright
 
